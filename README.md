@@ -66,3 +66,5 @@ Run:
 python3 flash.py
 ```
 if you have windows OS you can run normally by double clicking, and you have linux use terminal.
+
+#[Detailed Usage Guide](https://telegra.ph/UnbrickFlash-StockChange-Region-02-06)
