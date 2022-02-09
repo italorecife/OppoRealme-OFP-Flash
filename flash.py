@@ -323,8 +323,14 @@ def main():
         for item in child:
             if child.tag != "NVList":
                 continue
-            if (item.attrib["id"], item.attrib["text"], item.attrib["super0"], item.attrib["super1"], item.attrib["super2"]) not in regions:
-                regions.append((item.attrib["id"], item.attrib["text"], item.attrib["super0"], item.attrib["super1"], item.attrib["super2"]))
+            found = False
+            for subregion in regions:
+                if subregion[2] == item.attrib["super0"] and subregion[3] == item.attrib["super1"] and subregion[4] == item.attrib["super2"]:
+                    found = True
+                    break
+            if found:
+                continue
+            regions.append((item.attrib["id"], item.attrib["text"], item.attrib["super0"], item.attrib["super1"], item.attrib["super2"]))
     if len(regions) < 1:
         region = (None, None, None, None)
     elif len(regions) > 1:
