@@ -15,7 +15,7 @@ from struct import unpack
 os.system("")
 cpcount = 0
 invalidsuper = False
-
+fatalerror = ""
 def byebye():
     wait = input("Press Enter to continue...")
     exit(0)
@@ -230,20 +230,23 @@ def checkhashfile(path, wfilename, checksums):
     os.remove(os.path.join(path, wfilename))
     
 def flashpartition(partition, file):
+    global fatalerror
     print(f"FLASHING: {partition}")
     try:
         flashreturn = str(subprocess.check_output(["fastboot", "flash", partition, file], stderr=subprocess.STDOUT))
     except subprocess.CalledProcessError as e:
         flashreturn = str(e.output)
     if "FAILED (remote: Flashing is not allowed for Critical Partitions" in flashreturn:
-        print("FLASH FAIL: Changing this partition is not allowed for security reasons")
+        print("FLASH FAIL: Changing this partition is not allowed for security reasons (Critical Partition)")
     elif "unknown partition" in flashreturn:
         print("FLASH FAIL: Unknown partition")
     elif "FAILED" in flashreturn:
         print("FLASH FAILED!")
     else:
         print("FLASH SUCCESS!")
-        
+    if "read failed (Too many links)" in flashreturn:
+        fatalerror = "Use another USB port or another cable, and try flash again!"
+    
 def decryptitem(item, pagesize):
     sha256sum=""
     md5sum=""
@@ -272,7 +275,7 @@ def decryptitem(item, pagesize):
     return wfilename, start, length, rlength,[sha256sum,md5sum],decryptsize
         
 def main():
-    global cpcount, invalidsuper
+    global cpcount, invalidsuper, fatalerror
     print("Oppo/Realme Flash .OFP File on Bootloader | 1.0 (c) 2022 | Italo Almeida (@SirCDA) - GPL-3.0 License\n")
     print("Usage: Put the .ofp file in the same folder as the program,\nthen put your device in mode fastboot to start flash.")
     print("\nNote: if your device was not recognized in fastboot\nmode by the computer, try to install the adb drivers.")
@@ -501,7 +504,10 @@ def main():
             except subprocess.CalledProcessError as e:
                 print("EXTRACT ERROR: Error on super's. OFP super partiton might be broken!")
     shutil.rmtree(path)
-    print("\nDone. ofp file flashed with success!")
+    if fatalerror == "":
+        print("\nDone. ofp file flashed with success!")
+    else:
+        print(f"\nFATALERROR: {fatalerror}")
     byebye()
 
 
