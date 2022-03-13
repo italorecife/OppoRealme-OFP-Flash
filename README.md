@@ -17,6 +17,10 @@ THE DEVICE MUST HAVE THE BOOTLOADER UNLOCKED
 
 ## Installation
 
+### Compiled version: [DOWNLOAD](https://github.com/italorecife/OppoRealme-OFP-Flash/releases/)
+### OR
+### Python version:
+
 ## Install
 
 ### Linux (in the example below I will use ubuntu)
