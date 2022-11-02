@@ -383,7 +383,7 @@ def main():
         region = regions[0]
         print(f"Region: {region[1]}")
     
-    blacklist = ["ocdt", "oppodycnvbk", "oppostanvbk", "opporeserve1", "modem"] #Partitions with potential risk of HardBrick and IMEI loss
+    blacklist = ["ocdt", "oppodycnvbk", "oppostanvbk", "opporeserve1", "modem", "persist"] #Partitions with potential risk of HardBrick, IMEI loss and sensors miscalibration
     cpcount = 0
     while True:
         cleanprevious(cpcount)
@@ -445,7 +445,7 @@ def main():
         line = line.replace(" ", "").replace(" ", "").replace("\\r", "")
         if "partition-type" in line:
             partition = line.replace("(bootloader)partition-type:", "").split(":")[0]
-            if partition in blacklist:
+            if partition.replace("_a", "").replace("_b", "") in blacklist:
                 continue
             partitions.append(partition)
         elif "unlocked:no" in line:
