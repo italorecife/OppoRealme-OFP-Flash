@@ -4,7 +4,9 @@
 A tool to flash .ofp files in bootloader mode without needing MSM Tool, an alternative to official realme tool.
 
 THE DEVICE MUST HAVE THE BOOTLOADER UNLOCKED
-
+```
+Not guaranteed to work on realme ui versions lower than 3.0
+```
 ## Features
 - soft unbrick
 - install stock firmware
